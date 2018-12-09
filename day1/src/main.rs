@@ -1,21 +1,11 @@
-use std::{
-    io,
-    io::{BufRead, BufReader},
-    fs::File,
-    collections::HashSet,
-};
+use std::collections::HashSet;
+use utils;
 
 
-fn lines_from_file(filename: String) -> io::Result<Vec<String>>
-{
-    BufReader::new(File::open(filename)?).lines().collect()
-}
-
-
-fn day1() {
+fn part1() {
     let mut total_frequency = 0;
 
-    let frequencies = lines_from_file(String::from("day1.txt")).expect("Unable to load results from file");
+    let frequencies = utils::lines_from_file(String::from("day1.txt")).expect("Unable to load results from file");
 
     for frequency in &frequencies {
         let current_frequency = frequency.parse::<i32>().expect("Unable to parse integer");
@@ -28,13 +18,13 @@ fn day1() {
 
 
 
-fn day2() {
+fn part2() {
     let mut tracker_set: HashSet<i32> = HashSet::new();
     let mut total_frequency = 0;
 
     tracker_set.insert(total_frequency);
 
-    let frequencies = lines_from_file(String::from("day1.txt")).expect("Unable to load results from file");
+    let frequencies = utils::lines_from_file(String::from("day1.txt")).expect("Unable to load results from file");
 
     loop {
         for frequency in &frequencies {
@@ -55,6 +45,6 @@ fn day2() {
 
 
 fn main() {
-    day1();
-    day2();
+    part1();
+    part2();
 }
