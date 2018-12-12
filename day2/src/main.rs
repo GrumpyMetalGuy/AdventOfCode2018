@@ -33,9 +33,9 @@ fn part2() {
         for inner_counter in (outer_counter + 1)..ids.len() {
             let mut diff_counter = 0;
 
-            // TODO pull the results of the zipping into a vec of tuples
+            let letter_pairs = izip!(ids[outer_counter].chars(), ids[inner_counter].chars()).collect::<Vec<_>>();
             
-            for (first, second) in izip!(ids[outer_counter].chars(), ids[inner_counter].chars()) {
+            for (first, second) in &letter_pairs {
                 if first != second {
                     diff_counter += 1;
                 }
@@ -44,9 +44,9 @@ fn part2() {
             if diff_counter == 1 {
                 let mut results = String::new();
 
-                for (first, second) in izip!(ids[outer_counter].chars(), ids[inner_counter].chars()) {
+                for (first, second) in &letter_pairs {
                     if first == second {
-                        results.push(first);
+                        results.push(*first);
                     }
                 }                
 
