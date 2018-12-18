@@ -2,8 +2,8 @@ use utils::read_file;
 use std::collections::HashSet;
 
 
-fn reduce_polymer(file_contents: &String, tokens: &HashSet<String>) -> usize {
-    let mut current_file_contents = file_contents.clone();
+fn reduce_polymer(file_contents: &str, tokens: &HashSet<String>) -> usize {
+    let mut current_file_contents = file_contents.to_string();
 
     loop {
         let current_length = current_file_contents.len();
