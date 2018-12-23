@@ -52,7 +52,7 @@ fn part1() {
 
     // As we've put this into a BTreeMap, and keyed this by the number of minutes, picking the last iterator will give us a value for the guard
     // who's been asleep the most.
-    let guard_id = total_minute_map.iter().rev().next().unwrap().1;
+    let guard_id = total_minute_map.iter().next_back().unwrap().1;
 
     // Now pull out that guard's minutes, and pick the most common minute for xe to be asleep.
     let minutes = &timetable[guard_id];
@@ -78,7 +78,7 @@ fn part2() {
         _ => Some((v[0].1, *k))
     }).collect::<BTreeMap<_, _>>();
 
-    let guard_id = guard_most_frequent_minute_map.iter().rev().next().unwrap().1;
+    let guard_id = guard_most_frequent_minute_map.iter().next_back().unwrap().1;
 
     // Get the max minute frequency element (the last in the BTreeMap), then get the minute number itself
     let minute_number = *guard_most_common_minute_map[guard_id][0].0;
