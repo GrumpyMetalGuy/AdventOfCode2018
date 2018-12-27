@@ -36,7 +36,7 @@ impl TreeNode {
 
         let mut value = 0;
 
-        if children.len() == 0 {
+        if children.is_empty() {
             value = metadata.iter().sum::<i32>();
         } else {
             for&metadata_entry in &metadata {
