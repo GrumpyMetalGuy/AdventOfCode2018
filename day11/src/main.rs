@@ -1,5 +1,5 @@
 use simple_matrix::Matrix;
-
+use rayon::prelude::*;
 
 fn get_grid(grid_serial_number: i32) -> Matrix<i32> {
     let mut fuel_grid: Matrix<i32> = Matrix::new(300, 300);
@@ -29,21 +29,25 @@ fn get_grid(grid_serial_number: i32) -> Matrix<i32> {
 }
 
 
-fn part1(grid_serial_number: i32) {
-    let fuel_grid = get_grid(grid_serial_number);
+struct GridPowerBlock {
+    x: usize,
+    y: usize,
+    grid_size: usize,
+    value: i32,
+}
 
+
+fn get_block_power(fuel_grid: &Matrix<i32>, grid_size: usize) -> GridPowerBlock {
     let mut candidate_x = 0;
     let mut candidate_y = 0;
     let mut total_power = 0;
 
-    const GRID_SIZE: usize = 3;
-
-    for col in 0..(fuel_grid.cols() - GRID_SIZE) {
-        for row in 0..(fuel_grid.rows() - GRID_SIZE) {
+    for col in 0..(fuel_grid.cols() - grid_size) {
+        for row in 0..(fuel_grid.rows() - grid_size) {
             let mut new_total_power = 0;
 
-            for x_adj in 0..GRID_SIZE {
-                for y_adj in 0..GRID_SIZE {
+            for x_adj in 0..grid_size {
+                for y_adj in 0..grid_size {
                     new_total_power += fuel_grid.get(col + x_adj, row + y_adj).unwrap();
                 }
             }
@@ -56,40 +60,35 @@ fn part1(grid_serial_number: i32) {
         }
     }
 
-    println!("x: {}, y: {}", candidate_x + 1, candidate_y + 1);
+    GridPowerBlock {
+        x: candidate_x + 1,
+        y: candidate_y + 1,
+        grid_size,
+        value: total_power
+    }
+}
+
+
+fn part1(grid_serial_number: i32) {
+    let fuel_grid = get_grid(grid_serial_number);
+
+    let power_block = get_block_power(&fuel_grid, 3);
+
+    println!("x: {}, y: {}", power_block.x, power_block.y);
 }
 
 
 fn part2(grid_serial_number: i32) {
     let fuel_grid = get_grid(grid_serial_number);
 
-    let mut candidate_x = 0;
-    let mut candidate_y = 0;
-    let mut candidate_grid_size = 0;
-    let mut total_power = 0;
+    let results = (1..300).collect::<Vec<usize>>()
+        .par_iter()
+        .map(|grid_size| get_block_power(&fuel_grid, *grid_size))
+        .collect::<Vec<GridPowerBlock>>();
 
-    for grid_size in 1..300 {
-        for col in 0..(fuel_grid.cols() - grid_size) {
-            for row in 0..(fuel_grid.rows() - grid_size) {
-                let mut new_total_power = 0;
+    let highest_power_block = results.iter().max_by_key(|power_block| power_block.value).unwrap();
 
-                for x_adj in 0..grid_size {
-                    for y_adj in 0..grid_size {
-                        new_total_power += fuel_grid.get(col + x_adj, row + y_adj).unwrap();
-                    }
-                }
-
-                if new_total_power > total_power {
-                    total_power = new_total_power;
-                    candidate_x = col;
-                    candidate_y = row;
-                    candidate_grid_size = grid_size;
-                }
-            }
-        }
-    }
-
-    println!("x: {}, y: {}, grid size: {}", candidate_x + 1, candidate_y + 1, candidate_grid_size);
+    println!("x: {}, y: {}, grid size: {}", highest_power_block.x, highest_power_block.y, highest_power_block.grid_size);
 }
 
 
