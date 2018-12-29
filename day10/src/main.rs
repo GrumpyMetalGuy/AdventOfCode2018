@@ -48,7 +48,7 @@ impl Star {
 fn implementation() {
     let mut stars = Star::load();
 
-    let mut min_bounds = 1000000;
+    let mut min_bounds = 1_000_000;
     let mut closest_bounds = 0;
 
     // Start by looping over a large number of possibly timesteps. We'll pick the one that has the smallest overall size, so find the timestep
