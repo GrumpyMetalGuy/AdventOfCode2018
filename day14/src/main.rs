@@ -1,6 +1,3 @@
-use chrono::prelude::*;
-
-
 fn implementation(recipe_count: usize, next_recipe_count: usize) {
     let mut recipe_scoreboard: Vec<usize> = Vec::new();
     // let mut recipe_scoreboard =
@@ -37,10 +34,6 @@ fn implementation(recipe_count: usize, next_recipe_count: usize) {
         }
 
         iteration_count += 1;
-
-        if iteration_count % 50_000 == 0 {
-            println!("{}: {}", Local::now(), iteration_count);
-        }
     }
 
     let final_string: String = recipe_scoreboard.iter().map(|c| c.to_string()).collect::<String>();
