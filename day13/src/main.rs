@@ -70,13 +70,7 @@ impl Cart {
 
 impl Ord for Cart {
     fn cmp(&self, other: &Cart) -> Ordering {
-        let mut result = self.x.cmp(&other.x);
-
-        if result == Ordering::Equal {
-            result = self.y.cmp(&other.y);
-        }
-
-         result
+        self.x.cmp(&other.x).then_with(|| self.y.cmp(&other.y))
     }
 }
 

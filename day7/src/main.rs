@@ -82,13 +82,7 @@ impl WorkItem {
 
 impl Ord for WorkItem {
     fn cmp(&self, other: &WorkItem) -> Ordering {
-        let mut result = self.time_completed.cmp(&other.time_completed);
-
-        if result == Ordering::Equal {
-            result = self.work_unit.cmp(&other.work_unit);
-        }
-
-         result
+        self.time_completed.cmp(&other.time_completed).then_with(|| self.work_unit.cmp(&other.work_unit))
     }
 }
 
