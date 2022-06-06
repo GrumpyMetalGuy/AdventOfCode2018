@@ -1,7 +1,7 @@
 [package]
 name = "day10"
 version = "0.1.0"
-authors = ["peter <peter.keyzers@gmail.com>"]
+authors = ["18551877+GrumpyMetalGuy@users.noreply.github.com"]
 edition = "2018"
 
 [dependencies]
